@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Clientes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-4">
+  <h1 class="text-center mb-4">📋 Lista de Clientes</h1>
+
+  <!-- Formulário de filtro -->
+  <form method="get" action="/clientes" class="row g-3 mb-4">
+    <div class="col-md-4">
+      <input type="text" name="nome" class="form-control" placeholder="Buscar por nome">
+    </div>
+    <div class="col-md-3">
+      <input type="date" name="inicio" class="form-control">
+    </div>
+    <div class="col-md-3">
+      <input type="date" name="fim" class="form-control">
+    </div>
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-primary w-100">Filtrar</button>
+    </div>
+  </form>
+
+  <!-- Botão novo cliente -->
+  <div class="mb-3 text-end">
+    <a href="/clientes/novo" class="btn btn-success">➕ Novo Cliente</a>
+  </div>
+
+  <!-- Tabela -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+      <thead class="table-dark">
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Data Cadastro</th>
+        <th>Ações</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="c : ${clientes}">
+        <td th:text="${c.id}"></td>
+        <td th:text="${c.nome}"></td>
+        <td th:text="${c.email}"></td>
+        <td th:text="${#dates.format(c.dataCadastro, 'dd/MM/yyyy')}"></td>
+        <td>
+          <a th:href="@{'/clientes/editar/' + ${c.id}}" class="btn btn-warning btn-sm">✏ Editar</a>
+          <a th:href="@{'/clientes/excluir/' + ${c.id}}" class="btn btn-danger btn-sm"
+             onclick="return confirm('Tem certeza que deseja excluir este cliente?')">🗑 Excluir</a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+</body>
+</html>
